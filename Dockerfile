@@ -1,23 +1,19 @@
-# Create image based on the official Node LTS image from the dockerhub
-FROM node:lts
+# Establece la imagenBase xdxdxdd
+FROM node
 
-# Create a directory where our app will be placed
-RUN mkdir -p /usr/src/app
+# Se estable el directorio de trabajo
+WORKDIR /opt/app
 
-# Change directory so that our commands run inside this new directory
-WORKDIR /usr/src/app
+# Instala los paquetes existentes en el package.json
+COPY package*.json ./
 
-# Copy dependency definitions
-COPY package.json /usr/src/app
+RUN npm install 
 
-# Install dependecies
-RUN npm install
+# Copia la Aplicacion
+COPY . .
 
-# Get all the code needed to run the app
-COPY . /usr/src/app
+# Expone la aplicaciÃon en el puerto 5000
+EXPOSE 5000
 
-# Expose the port the app runs in
-EXPOSE 8080
-
-# Serve the app
-CMD ["npm", "start", "--host", "0.0.0.0"]
+# Inicia la aplicacion al iniciar al contenedor
+CMD ["npm", "start"]
